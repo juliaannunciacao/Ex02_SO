@@ -1,0 +1,30 @@
+package view;
+
+import controller.KillController;
+import javax.swing.*;
+
+public class Main {
+    public static void main(String[] args) {
+        while (true) {
+            String[] options = {"Listar Processos", "Matar Processo por PID", "Matar Processo por Nome", "Sair"};
+            int choice = JOptionPane.showOptionDialog(null, "Escolha uma opção", "Menu",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+            if (choice == 0) {
+                KillController controller = new KillController();
+                controller.listaProcessos();
+            } else if (choice == 1) {
+                String pid = JOptionPane.showInputDialog("Digite o PID do processo:");
+                KillController controller = new KillController();
+                controller.mataPid(pid);
+            } else if (choice == 2) {
+                String nome = JOptionPane.showInputDialog("Digite o nome do processo:");
+                KillController controller = new KillController();
+                controller.mataNome(nome);
+            } else if (choice == 3) {
+                System.exit(0);
+            } else {
+                break;
+            }
+        }
+    }
+}
