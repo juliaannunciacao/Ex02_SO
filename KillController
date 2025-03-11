@@ -1,0 +1,77 @@
+package controller;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class KillController {
+    private String os() {
+        String os = System.getProperty("os.name").toLowerCase();
+        return os;
+    }
+
+    public void listaProcessos() {
+        try {
+            String sistemaOperacional = os();
+            Process processo;
+            if (sistemaOperacional.contains("win")) {
+                processo = Runtime.getRuntime().exec("tasklist");
+            } else if (sistemaOperacional.contains("nix") || sistemaOperacional.contains("nux")) {
+                processo = Runtime.getRuntime().exec("ps -ef");
+            } else {
+                System.out.println("Sistema operacional não suportado.");
+                return;
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(processo.getInputStream()));
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                System.out.println(linha);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mataPid(String pid) {
+        try {
+            String sistemaOperacional = os();
+            Process processo;
+            if (sistemaOperacional.contains("win")) {
+                processo = Runtime.getRuntime().exec("taskkill /PID " + pid);
+            } else if (sistemaOperacional.contains("nix") || sistemaOperacional.contains("nux")) {
+                processo = Runtime.getRuntime().exec("kill -9 " + pid);
+            } else {
+                System.out.println("Sistema operacional não suportado.");
+                return;
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(processo.getInputStream()));
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                System.out.println(linha);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mataNome(String nome) {
+        try {
+            String sistemaOperacional = os();
+            Process processo;
+            if (sistemaOperacional.contains("win")) {
+                processo = Runtime.getRuntime().exec("taskkill /IM " + nome);
+            } else if (sistemaOperacional.contains("nix") || sistemaOperacional.contains("nux")) {
+                processo = Runtime.getRuntime().exec("pkill -f " + nome);
+            } else {
+                System.out.println("Sistema operacional não suportado.");
+                return;
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(processo.getInputStream()));
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                System.out.println(linha);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
